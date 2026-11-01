@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+      - name: Start services
+        run: docker compose up -d --wait
+      - name: Train the model
+        run: python -m fraud.train --out artifacts
+      - name: Run all tests
+        run: RUN_INTEGRATION=1 python -m pytest -v
+      - name: Build the dashboard
+        working-directory: dashboard
+        run: |
+          npm ci
+          npm run build

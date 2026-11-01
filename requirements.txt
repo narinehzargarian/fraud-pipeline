@@ -1,0 +1,12 @@
+confluent-kafka>=2.5
+fastapi>=0.115
+httpx>=0.27
+joblib>=1.4
+numpy>=1.26
+pandas>=2.2
+psycopg[binary]>=3.2
+pydantic>=2.9
+pytest>=8
+redis>=5
+scikit-learn>=1.5
+uvicorn>=0.30
